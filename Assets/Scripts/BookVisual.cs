@@ -2,20 +2,24 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Shapes;
+using TMPro;
 using UnityEngine;
 
 public class BookVisual : MonoBehaviour
 {
-    public Color BookColor;
-
     public Rectangle mainRectangle;
 
     public float lightUpRatios;
+
+    public TMP_Text bookHeader;
+
+    public BookData bookData;
     
     private void Update()
     {
-        mainRectangle.FillColorStart = BookColor;
-        mainRectangle.FillColorEnd = BookColor.Lighten(lightUpRatios);
+        mainRectangle.FillColorStart = bookData.color;
+        mainRectangle.FillColorEnd = bookData.color.Lighten(lightUpRatios);
 
+        bookHeader.text = bookData.title;
     }
 }
