@@ -52,17 +52,17 @@ public class BookPattern : MonoBehaviour
         {
             case EBookShape.Triangle:
                 _regularPolygon.Sides = 3;
-                _regularPolygon.Radius = 0.1f;
+                _regularPolygon.Radius = 1f;
                 _regularPolygon.Angle = -30f;
                 break;
             case EBookShape.Rectangle:
                 _regularPolygon.Sides = 4;
-                _regularPolygon.Radius = 0.1f;
+                _regularPolygon.Radius = 1f;
                 _regularPolygon.Angle = -45f;
                 break;
             case EBookShape.Whatever:
                 _regularPolygon.Sides = 32;
-                _regularPolygon.Radius = 0.08f;
+                _regularPolygon.Radius = 0.8f;
                 _regularPolygon.Angle = 0f;
                 break;
         }
