@@ -6,13 +6,17 @@ public enum BookTag
 {
     Classic,
     ScienceFiction,
-    Sceptical,
-    Historical,
-    Philosophy,
+    Crime,
     LoveStory,
-    Mental,
-    Feminism,
-    Education,
+    psychological,
+    Politics
+}
+
+[System.Serializable]
+public struct TagEntity
+{
+    public BookTag tag;
+    public int score;
 }
 
 [System.Serializable]
@@ -20,7 +24,7 @@ public class BookData
 {
     public string title = "Untitled";
     public string author = "Unknown";
-    public List<BookTag> tags;
+    public List<TagEntity> tagScores;
     
     [Header("Visual Parameters")]
     public Color color = Color.gray;

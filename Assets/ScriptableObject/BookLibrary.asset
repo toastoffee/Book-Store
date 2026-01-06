@@ -13,55 +13,129 @@ MonoBehaviour:
   m_Name: BookLibrary
   m_EditorClassIdentifier: 
   books:
-  - title: "\u8FC7\u4E8E\u55A7\u56A3\u7684\u5B64\u72EC"
+  - title: "\u7D22\u62C9\u91CC\u65AF\u661F"
     author: 
-    tags: 0000000006000000
-    color: {r: 1, g: 0.3442434, b: 0, a: 0}
-  - title: "\u6D77\u8FB9\u7684\u5361\u592B\u5361"
+    tagScores:
+    - tag: 0
+      score: 2
+    - tag: 1
+      score: 1
+    - tag: 4
+      score: 1
+    color: {r: 1, g: 0.3442434, b: 0, a: 1}
+  - title: "\u7231\u4F26\u5761\u77ED\u7BC7\u96C6"
     author: 
-    tags: 0600000004000000
-    color: {r: 0, g: 0.025089193, b: 0.6037736, a: 0}
-  - title: "\u57CE\u5E02\u4E0E\u72D7"
-    author: 
-    tags: 020000000600000000000000
-    color: {r: 0, g: 0.4528302, b: 0.08349264, a: 0}
-  - title: "\u6089\u8FBE\u591A"
-    author: 
-    tags: 0000000004000000
-    color: {r: 0.8207547, g: 0.29047474, b: 0, a: 0}
-  - title: "\u5C24\u5229\u897F\u65AF"
-    author: 
-    tags: 06000000
-    color: {r: 0, g: 0.4528302, b: 0.13184954, a: 0}
+    tagScores:
+    - tag: 0
+      score: 2
+    - tag: 2
+      score: 1
+    color: {r: 0.0069419593, g: 0.025784403, b: 0.49056602, a: 1}
   - title: "\u897F\u6E38\u8BB0"
     author: 
-    tags: 00000000
-    color: {r: 0.81960785, g: 0, b: 0.6172888, a: 0}
+    tagScores:
+    - tag: 0
+      score: 2
+    color: {r: 0, g: 0.3301887, b: 0.060295295, a: 1}
   - title: "\u6D77\u5E95\u4E24\u4E07\u91CC"
     author: 
-    tags: 01000000
-    color: {r: 0.08797894, g: 0, b: 0.81960785, a: 0}
-  - title: "\u53F2\u8BB0"
+    tagScores:
+    - tag: 0
+      score: 1
+    - tag: 1
+      score: 2
+    color: {r: 0.8207547, g: 0.29047474, b: 0, a: 1}
+  - title: "\u5361\u62C9\u9A6C\u4F50\u592B\u5144\u5F1F"
     author: 
-    tags: 03000000
-    color: {r: 0.5943396, g: 0.2432324, b: 0.10933607, a: 0}
+    tagScores:
+    - tag: 0
+      score: 1
+    - tag: 4
+      score: 1
+    - tag: 5
+      score: 2
+    color: {r: 0.13254943, g: 0.3207547, b: 0.06808473, a: 1}
+  - title: "\u98D8"
+    author: 
+    tagScores:
+    - tag: 4
+      score: 1
+    - tag: 5
+      score: 2
+    color: {r: 0.4528302, g: 0.0064079626, b: 0.34175873, a: 1}
+  - title: "\u544A\u767D"
+    author: 
+    tagScores:
+    - tag: 2
+      score: 1
+    - tag: 3
+      score: 2
+    - tag: 4
+      score: 1
+    color: {r: 0.17948413, g: 0.040094346, b: 0.5, a: 1}
+  - title: "\u6C99\u4E18"
+    author: 
+    tagScores:
+    - tag: 1
+      score: 1
+    - tag: 3
+      score: 1
+    - tag: 5
+      score: 2
+    color: {r: 0.5943396, g: 0.2432324, b: 0.10933607, a: 1}
+  - title: "\u767D\u591C\u884C"
+    author: 
+    tagScores:
+    - tag: 2
+      score: 2
+    - tag: 3
+      score: 1
+    color: {r: 0.09131362, g: 0.33266065, b: 0.33962262, a: 1}
+  - title: "\u7231\u60C5\u7684\u7EC8\u7ED3"
+    author: 
+    tagScores:
+    - tag: 3
+      score: 1
+    - tag: 4
+      score: 2
+    color: {r: 0.4255401, g: 0.08235294, b: 0.5019608, a: 1}
+  - title: "\u5C11\u6570\u6D3E\u62A5\u544A"
+    author: 
+    tagScores:
+    - tag: 1
+      score: 2
+    - tag: 2
+      score: 1
+    color: {r: 0.08235294, g: 0.22445925, b: 0.5019608, a: 1}
+  - title: "\u592A\u7A7A\u6F2B\u6E382001"
+    author: 
+    tagScores:
+    - tag: 1
+      score: 2
+    color: {r: 0.5943396, g: 0.053266276, b: 0.053266272, a: 1}
   - title: "\u798F\u5C14\u6469\u65AF\u63A2\u6848\u96C6"
     author: 
-    tags: 02000000
-    color: {r: 0.08254716, g: 0.49088877, b: 0.5, a: 0}
-  - title: "\u82CF\u83F2\u7684\u4E16\u754C"
+    tagScores:
+    - tag: 2
+      score: 2
+    color: {r: 0.18062478, g: 0.38679248, b: 0.3315156, a: 1}
+  - title: "\u5C24\u5229\u897F\u65AF"
     author: 
-    tags: 04000000
-    color: {r: 0.4255401, g: 0.08235294, b: 0.5019608, a: 0}
-  - title: "\u50B2\u6162\u4E0E\u504F\u89C1"
+    tagScores:
+    - tag: 4
+      score: 2
+    color: {r: 0, g: 0.38679248, b: 0.28308722, a: 1}
+  - title: "\u6218\u4E89\u4E0E\u548C\u5E73"
     author: 
-    tags: 05000000
-    color: {r: 0.08235294, g: 0.22445925, b: 0.5019608, a: 0}
-  - title: "\u538C\u5973"
+    tagScores:
+    - tag: 5
+      score: 2
+    color: {r: 0.38679248, g: 0.32774767, b: 0.016420428, a: 1}
+  - title: "\u7F6A\u4E0E\u7F5A"
     author: 
-    tags: 07000000
-    color: {r: 0.5943396, g: 0.053266276, b: 0.053266272, a: 0}
-  - title: "\u770B\u89C1\u5B69\u5B50"
-    author: 
-    tags: 08000000
-    color: {r: 0.054901965, g: 0.59607846, b: 0.44997242, a: 0}
+    tagScores:
+    - tag: 4
+      score: 2
+    - tag: 5
+      score: 1
+    color: {r: 0.59607846, g: 0.054901965, b: 0.10071851, a: 1}

@@ -5,7 +5,7 @@ using Shapes;
 using TMPro;
 using UnityEngine;
 
-public class BookVisual : MonoBehaviour
+public class Book : MonoBehaviour
 {
     public Rectangle mainRectangle;
 
