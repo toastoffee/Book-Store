@@ -9,7 +9,7 @@ public class BookPattern : MonoBehaviour
 
     private RegularPolygon _regularPolygon;
 
-    private void Start()
+    private void Awake()
     {
         _regularPolygon = GetComponent<RegularPolygon>();
     }
@@ -20,7 +20,12 @@ public class BookPattern : MonoBehaviour
         
         UpdatePattern();
     }
-    
+
+    private void Update()
+    {
+        UpdatePattern();
+    }
+
     private void UpdatePattern()
     {
         UpdateBookColor();
@@ -41,7 +46,11 @@ public class BookPattern : MonoBehaviour
                 _regularPolygon.Color = Color.blue;
                 break;
             case EBookColor.Whatever:
-                _regularPolygon.UseFill = true;
+                // _regularPolygon.UseFill = true;
+                // _regularPolygon.FillColorStart = Color.red;
+                // _regularPolygon.FillColorEnd = Color.blue;
+                _regularPolygon.Color = Color.white;
+
                 break;
         }
     }
@@ -53,12 +62,12 @@ public class BookPattern : MonoBehaviour
             case EBookShape.Triangle:
                 _regularPolygon.Sides = 3;
                 _regularPolygon.Radius = 1f;
-                _regularPolygon.Angle = -30f;
+                _regularPolygon.Angle = -30f * Mathf.Deg2Rad;
                 break;
             case EBookShape.Rectangle:
                 _regularPolygon.Sides = 4;
                 _regularPolygon.Radius = 1f;
-                _regularPolygon.Angle = -45f;
+                _regularPolygon.Angle = -45f * Mathf.Deg2Rad;
                 break;
             case EBookShape.Whatever:
                 _regularPolygon.Sides = 32;
