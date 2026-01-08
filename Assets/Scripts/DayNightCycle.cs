@@ -1,7 +1,6 @@
 using UnityEngine;
 
 
-[ExecuteAlways]
 public class DayNightCycle : MonoBehaviour
 {
     public float dayLengthInSeconds = 120f;
