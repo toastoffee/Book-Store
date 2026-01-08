@@ -9,7 +9,6 @@ public class DraggableObject : MonoBehaviour
     public float followSpeed = 8f;
 
     private bool isDragging = false;
-    private Vector3 originalPosition;
     private Transform originalParent;
     private Rigidbody rb;
 
@@ -47,7 +46,7 @@ public class DraggableObject : MonoBehaviour
             }
         }
         
-        else if (Input.GetMouseButtonDown(0) && isDragging)
+        else if (Input.GetMouseButtonUp(0) && isDragging)
         {
             Drop();
         }
@@ -56,7 +55,6 @@ public class DraggableObject : MonoBehaviour
     void PickUp()
     {
         isDragging = true;
-        originalPosition = transform.position;
         originalParent = transform.parent;
         transform.SetParent(null);
 
@@ -93,7 +91,9 @@ public class DraggableObject : MonoBehaviour
 
             Vector3 desiredVelocity = offset * followSpeed;
 
-            rb.velocity = desiredVelocity;
+            float magnitude = Mathf.Clamp(desiredVelocity.magnitude, 0f, 15f);
+
+            rb.velocity = desiredVelocity.normalized * magnitude;
         }
     }
 }

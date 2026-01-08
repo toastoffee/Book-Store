@@ -2,33 +2,54 @@ using System;
 using UnityEngine;
 
 
-[ExecuteInEditMode]
 public class BookVisual : MonoBehaviour
 {
-    public MeshRenderer insideVisual;
-    public MeshRenderer leftVisual, rightVisual, backVisual;
+    private MeshRenderer outRenderer;
 
-    public float bookHeight, bookThickness, bookOuterThickness, bookMargin, bookRatio;
-    public Color bookOuterColor;
-
-    private void Update()
+    public BookData bookData;
+    
+    private void Start()
     {
-        float outerHeight = bookHeight;
-        float outerWidth = bookHeight / bookRatio;
+        outRenderer = GetComponent<MeshRenderer>();
         
-        // Scale
-        leftVisual.transform.localScale = new Vector3(bookOuterThickness, outerHeight, outerWidth);
-        rightVisual.transform.localScale = new Vector3(bookOuterThickness, outerHeight, outerWidth);
-        insideVisual.transform.localScale = new Vector3(bookThickness - 2 * bookOuterThickness,
-            outerHeight - 2 * bookMargin,
-            outerWidth - bookMargin - bookOuterThickness);
-        backVisual.transform.localScale = new Vector3(bookThickness - 2 * bookOuterThickness, outerHeight, bookOuterThickness);
+        ApplyBookColor();
+    }
+
+    public void SetBookData(BookData data)
+    {
+        bookData = data;
+        ApplyBookColor();
+    }
+
+    private void ApplyBookColor()
+    {
+        Color color = GetColor(bookData.genre);
         
-        // Poses
-        leftVisual.transform.localPosition = new Vector3(-(bookThickness - bookOuterThickness) / 2f, outerHeight / 2f, outerWidth / 2f);
-        rightVisual.transform.localPosition = new Vector3((bookThickness - bookOuterThickness) / 2f, outerHeight / 2f, outerWidth / 2f);
-        insideVisual.transform.localPosition = new Vector3(0f, outerHeight / 2f, (outerWidth - bookMargin + bookOuterThickness) / 2f);
-        backVisual.transform.localPosition = new Vector3(0f, outerHeight / 2f, bookOuterThickness / 2f);
+        if (outRenderer != null && outRenderer.material != null)
+        {
+            outRenderer.material.color = color;
+        }
+    }
+
+    private Color GetColor(BookGenre genre)
+    {
+        switch (genre)
+        {
+            case BookGenre.Classic:
+                return new Color(1.0f, 0.4f, 0.0f);
+            case BookGenre.ScienceFiction:
+                return new Color(0f, 0.4f, 1f);
+            case BookGenre.LoveStory:
+                return new Color(1.0f, 0.4f, 0.67f);
+            case BookGenre.Sceptical:
+                return new Color(0.57f, 0f, 0.9f);
+            case BookGenre.Psychological:
+                return new Color(0f, 0.74f, 0.40f);
+            case BookGenre.Historical:
+                return new Color(1.0f, 0.9f, 0.0f);
+        }
+
+        return Color.white;
     }
 
 }
