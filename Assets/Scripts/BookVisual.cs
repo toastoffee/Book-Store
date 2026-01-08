@@ -23,6 +23,8 @@ public class BookVisual : MonoBehaviour
 
     private void ApplyBookColor()
     {
+        if(bookData == null) return;
+        
         Color color = GetColor(bookData.genre);
         
         if (outRenderer != null && outRenderer.material != null)

@@ -12,7 +12,7 @@ public enum BookGenre
 }
 
 [Serializable]
-public struct BookData
+public class BookData
 {
     public string bookName;
 

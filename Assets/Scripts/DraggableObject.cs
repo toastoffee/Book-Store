@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class DraggableObject : MonoBehaviour
@@ -11,6 +12,8 @@ public class DraggableObject : MonoBehaviour
     private bool isDragging = false;
     private Transform originalParent;
     private Rigidbody rb;
+
+    public Action mouseUpHandler;
 
     void Start()
     {
@@ -48,6 +51,8 @@ public class DraggableObject : MonoBehaviour
         
         else if (Input.GetMouseButtonUp(0) && isDragging)
         {
+            mouseUpHandler?.Invoke();
+            
             Drop();
         }
     }

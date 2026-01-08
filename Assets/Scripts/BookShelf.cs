@@ -25,16 +25,30 @@ public class BookShelf : MonoBehaviour
             allBookVisuals[i].transform.SetParent(anchor);
             allBookVisuals[i].transform.localPosition = Vector3.zero;
             anchorPoses.Add(anchor);
+            
         }
     }
 
     private void Update()
     {
-        
+        UpdateVisuals();
+    }
+
+    public void AddBook(BookVisual book)
+    {
+        allBooks.Add(book.bookData);
     }
 
     private void UpdateVisuals()
     {
-        
+        for (int i = 0; i < maxContent; i++)
+        {
+            BookData bookData = allBooks.Count > i ? allBooks[i] : null;
+            allBookVisuals[i].gameObject.SetActive(bookData != null);
+            
+            if(bookData == null) continue;
+            allBookVisuals[i].SetBookData(bookData);
+            
+        }
     }
 }
