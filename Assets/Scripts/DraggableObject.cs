@@ -3,10 +3,10 @@ using UnityEngine;
 public class DraggableObject : MonoBehaviour
 {
     [Header("设置")]
-    public Camera mainCamera;          // 主摄像机
-    public float planeHeight = 0.5f;   // 物体保持的目标 Y 高度
-    public LayerMask draggableLayer;   // 可拾取层（可选）
-    public float followSpeed = 10f;    // 跟随速度（越大越快，建议 5~20）
+    public Camera mainCamera;   
+    public float planeHeight = 1.0f;
+    public LayerMask draggableLayer;
+    public float followSpeed = 8f;
 
     private bool isDragging = false;
     private Vector3 originalPosition;
@@ -26,13 +26,11 @@ public class DraggableObject : MonoBehaviour
             return;
         }
 
-        // 确保初始状态受重力（未拾取时）
         rb.useGravity = true;
     }
 
     void Update()
     {
-        // === 拾取：点击物体 ===
         if (Input.GetMouseButtonDown(0) && !isDragging)
         {
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
@@ -48,7 +46,7 @@ public class DraggableObject : MonoBehaviour
                 }
             }
         }
-        // === 释放：再次点击（任意位置）===
+        
         else if (Input.GetMouseButtonDown(0) && isDragging)
         {
             Drop();
@@ -74,19 +72,15 @@ public class DraggableObject : MonoBehaviour
         isDragging = false;
         transform.SetParent(originalParent);
 
-        // 恢复重力
         rb.useGravity = true;
 
-        // 显示鼠标
         Cursor.visible = true;
     }
 
-    // 👇 所有 Rigidbody 操作必须在 FixedUpdate 中进行！
     void FixedUpdate()
     {
         if (!isDragging || rb == null) return;
 
-        // 1. 计算鼠标在世界空间的目标位置（固定 Y）
         Ray mouseRay = mainCamera.ScreenPointToRay(Input.mousePosition);
         Plane groundPlane = new Plane(Vector3.up, new Vector3(0, planeHeight, 0));
 
@@ -95,13 +89,10 @@ public class DraggableObject : MonoBehaviour
             Vector3 targetPosition = mouseRay.GetPoint(distance);
             targetPosition.y = planeHeight;
 
-            // 2. 计算当前位置到目标的偏移
             Vector3 offset = targetPosition - rb.position;
 
-            // 3. 根据偏移计算期望速度（带阻尼的平滑跟随）
             Vector3 desiredVelocity = offset * followSpeed;
 
-            // 4. 直接设置 velocity（最稳定的方式）
             rb.velocity = desiredVelocity;
         }
     }
