@@ -101,4 +101,9 @@ public class DraggableObject : MonoBehaviour
             rb.velocity = desiredVelocity.normalized * magnitude;
         }
     }
+
+    private void OnDestroy()
+    {
+        Cursor.visible = true;
+    }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public class BookShelf : MonoBehaviour
@@ -12,6 +13,7 @@ public class BookShelf : MonoBehaviour
     
     public List<BookData> allBooks = new List<BookData>();
 
+    public bool isBookFull => allBooks.Count >= maxContent;
 
     private void Start()
     {
@@ -33,10 +35,20 @@ public class BookShelf : MonoBehaviour
     {
         UpdateVisuals();
     }
-
+    
     public void AddBook(BookVisual book)
     {
+        int newBookIdx = allBooks.Count;
         allBooks.Add(book.bookData);
+
+        allBookVisuals[newBookIdx].transform.position = book.transform.position;
+        allBookVisuals[newBookIdx].transform.rotation = book.transform.rotation;
+
+        Sequence seq = DOTween.Sequence();
+        seq.Append(allBookVisuals[newBookIdx].transform.DOLocalMoveX(0f, 0.8f));
+        seq.Join(allBookVisuals[newBookIdx].transform.DOLocalMoveY(0f, 0.8f));
+        seq.Join(allBookVisuals[newBookIdx].transform.DOLocalRotateQuaternion(Quaternion.identity, 0.8f));
+        seq.Append(allBookVisuals[newBookIdx].transform.DOLocalMoveZ(0f, 0.6f));
     }
 
     private void UpdateVisuals()
@@ -49,6 +61,22 @@ public class BookShelf : MonoBehaviour
             if(bookData == null) continue;
             allBookVisuals[i].SetBookData(bookData);
             
+        }
+    }
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(isBookFull) return;
+        
+        BookVisual bookVisual = other.GetComponent<BookVisual>();
+        DraggableObject draggableObject = other.GetComponent<DraggableObject>();
+
+        if (bookVisual != null && draggableObject != null)
+        {
+            AddBook(bookVisual);
+            
+            Destroy(other.gameObject);
         }
     }
 }
