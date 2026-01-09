@@ -34,23 +34,26 @@ public class DraggableObject : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && !isDragging)
+        bool hitMe = false;
+        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        int layerMask = draggableLayer != default(LayerMask) ? draggableLayer.value : Physics.AllLayers;
+
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
         {
-            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-
-            int layerMask = draggableLayer != default(LayerMask) ? draggableLayer.value : Physics.AllLayers;
-
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
+            if (hit.transform.root == transform.root)
             {
-                if (hit.transform.root == transform.root)
-                {
-                    PickUp();
-                }
+                hitMe = true;
             }
         }
-
-        if (Input.GetMouseButtonUp(1))
+        
+        if (hitMe && Input.GetMouseButtonDown(0) && !isDragging)
+        {
+            PickUp();
+        }
+        
+        if (hitMe && Input.GetMouseButtonUp(1))
         {
             mouseRightClickHandler?.Invoke();
         }

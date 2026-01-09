@@ -1166,7 +1166,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u8D2D\u4E70\u7ECF\u5178\u4E66\u7C4D (5\u672C)"
+  m_text: "\u8D2D\u4E70\u5386\u53F2\u4E66\u7C4D (5\u672C)"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 61198828b253f43998d15b6e9d05023c, type: 2}
   m_sharedMaterial: {fileID: 4299744242814282173, guid: 61198828b253f43998d15b6e9d05023c,
@@ -1511,7 +1511,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 370937874}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1123151767}
+        m_TargetAssemblyTypeName: BuyBooksPanel, Assembly-CSharp
+        m_MethodName: OrderPsychological
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &370937874
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2102,6 +2114,8 @@ Transform:
   - {fileID: 1394719684}
   - {fileID: 1503430527}
   - {fileID: 1594866414}
+  - {fileID: 1699197533}
+  - {fileID: 864359493}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &418434836
@@ -2186,7 +2200,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 418434839}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1123151767}
+        m_TargetAssemblyTypeName: BuyBooksPanel, Assembly-CSharp
+        m_MethodName: OrderHistorical
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &418434839
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2501,7 +2527,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 520635218}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1123151767}
+        m_TargetAssemblyTypeName: BuyBooksPanel, Assembly-CSharp
+        m_MethodName: OrderLoveStory
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &520635218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3213,7 +3251,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u8D2D\u4E70\u7ECF\u5178\u4E66\u7C4D (5\u672C)"
+  m_text: "\u8D2D\u4E70\u5FC3\u7406\u4E66\u7C4D (5\u672C)"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 61198828b253f43998d15b6e9d05023c, type: 2}
   m_sharedMaterial: {fileID: 4299744242814282173, guid: 61198828b253f43998d15b6e9d05023c,
@@ -3748,7 +3786,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 864359492}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -0.86, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3757,7 +3795,7 @@ Transform:
   - {fileID: 484578059}
   - {fileID: 885465905}
   - {fileID: 590141108}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 412925232}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &876818241 stripped
 Transform:
@@ -4252,7 +4290,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u8D2D\u4E70\u7ECF\u5178\u4E66\u7C4D (5\u672C)"
+  m_text: "\u8D2D\u4E70\u60AC\u7591\u4E66\u7C4D (5\u672C)"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 61198828b253f43998d15b6e9d05023c, type: 2}
   m_sharedMaterial: {fileID: 4299744242814282173, guid: 61198828b253f43998d15b6e9d05023c,
@@ -4976,6 +5014,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c04eb49466744f4697ca88a2f977bd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bookBoxPrefab: {fileID: 8307233945456091140, guid: 17f0d23e410b747b28c1854a1f056ee3,
+    type: 3}
+  SpawnPos: {fileID: 1699197533}
 --- !u!1 &1130919834
 GameObject:
   m_ObjectHideFlags: 0
@@ -5058,7 +5099,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1130919837}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1123151767}
+        m_TargetAssemblyTypeName: BuyBooksPanel, Assembly-CSharp
+        m_MethodName: OrderSceptical
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1130919837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6398,7 +6451,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u8D2D\u4E70\u7ECF\u5178\u4E66\u7C4D (5\u672C)"
+  m_text: "\u8D2D\u4E70\u79D1\u5E7B\u4E66\u7C4D (5\u672C)"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 61198828b253f43998d15b6e9d05023c, type: 2}
   m_sharedMaterial: {fileID: 4299744242814282173, guid: 61198828b253f43998d15b6e9d05023c,
@@ -7022,6 +7075,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1698912331}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1699197532
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1699197533}
+  m_Layer: 0
+  m_Name: SpawnPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1699197533
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1699197532}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.988, y: 6.17, z: 5.463}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 412925232}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1762098756
 GameObject:
   m_ObjectHideFlags: 0
@@ -7197,7 +7281,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u8D2D\u4E70\u7ECF\u5178\u4E66\u7C4D (5\u672C)"
+  m_text: "\u8D2D\u4E70\u7231\u60C5\u4E66\u7C4D (5\u672C)"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 61198828b253f43998d15b6e9d05023c, type: 2}
   m_sharedMaterial: {fileID: 4299744242814282173, guid: 61198828b253f43998d15b6e9d05023c,
@@ -7275,74 +7359,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1776466452}
   m_CullTransparentMesh: 1
---- !u!1001 &1800012515
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 6521239383504129403, guid: c879a144a22d84058808484152989dc5,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 3.497
-      objectReference: {fileID: 0}
-    - target: {fileID: 6521239383504129403, guid: c879a144a22d84058808484152989dc5,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.376
-      objectReference: {fileID: 0}
-    - target: {fileID: 6521239383504129403, guid: c879a144a22d84058808484152989dc5,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 1.509
-      objectReference: {fileID: 0}
-    - target: {fileID: 6521239383504129403, guid: c879a144a22d84058808484152989dc5,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.66978794
-      objectReference: {fileID: 0}
-    - target: {fileID: 6521239383504129403, guid: c879a144a22d84058808484152989dc5,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0.22668149
-      objectReference: {fileID: 0}
-    - target: {fileID: 6521239383504129403, guid: c879a144a22d84058808484152989dc5,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.6697873
-      objectReference: {fileID: 0}
-    - target: {fileID: 6521239383504129403, guid: c879a144a22d84058808484152989dc5,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0.22668166
-      objectReference: {fileID: 0}
-    - target: {fileID: 6521239383504129403, guid: c879a144a22d84058808484152989dc5,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6521239383504129403, guid: c879a144a22d84058808484152989dc5,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 6521239383504129403, guid: c879a144a22d84058808484152989dc5,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 37.396
-      objectReference: {fileID: 0}
-    - target: {fileID: 7039181272524042458, guid: c879a144a22d84058808484152989dc5,
-        type: 3}
-      propertyPath: m_Name
-      value: Book
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: c879a144a22d84058808484152989dc5, type: 3}
 --- !u!1 &1813859136
 GameObject:
   m_ObjectHideFlags: 0
@@ -8430,7 +8446,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1955472416}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1123151767}
+        m_TargetAssemblyTypeName: BuyBooksPanel, Assembly-CSharp
+        m_MethodName: OrderClassic
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1955472416
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9150,7 +9178,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2139638486}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1123151767}
+        m_TargetAssemblyTypeName: BuyBooksPanel, Assembly-CSharp
+        m_MethodName: OrderScienceFiction
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2139638486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9598,6 +9638,4 @@ SceneRoots:
   - {fileID: 832575519}
   - {fileID: 549402061}
   - {fileID: 412925232}
-  - {fileID: 864359493}
   - {fileID: 1386619118}
-  - {fileID: 1800012515}

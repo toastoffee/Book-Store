@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class bookBox : MonoBehaviour
+public class BookBox : MonoBehaviour
 {
     public List<BookData> books = new List<BookData>();
 
