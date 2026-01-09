@@ -14,6 +14,7 @@ public class DraggableObject : MonoBehaviour
     private Rigidbody rb;
 
     public Action mouseUpHandler;
+    public Action mouseRightClickHandler;
 
     void Start()
     {
@@ -47,6 +48,11 @@ public class DraggableObject : MonoBehaviour
                     PickUp();
                 }
             }
+        }
+
+        if (Input.GetMouseButtonUp(1))
+        {
+            mouseRightClickHandler?.Invoke();
         }
         
         else if (Input.GetMouseButtonUp(0) && isDragging)
