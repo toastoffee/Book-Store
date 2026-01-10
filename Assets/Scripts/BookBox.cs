@@ -12,6 +12,7 @@ public class BookBox : MonoBehaviour
     public float bookHeightInterval;
     
     public BookVisual bookPrefab;
+
     
     void Start()
     {
