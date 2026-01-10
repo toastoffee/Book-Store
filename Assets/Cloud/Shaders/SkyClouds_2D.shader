@@ -75,6 +75,16 @@ Shader "SkyClouds_2D"
 		ZTest LEqual
 		Offset 0 , 0
 		AlphaToMask Off
+		
+		// Stencil测试：当模板值为1时不渲染
+		Stencil
+		{
+			Ref 1
+			Comp NotEqual  // 只有当模板值不等于1时才渲染（模板值为1时不渲染）
+			Pass Keep
+			Fail Keep
+			ZFail Keep
+		}
 
 		
 

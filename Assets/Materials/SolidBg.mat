@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: StencilWriter
-  m_Shader: {fileID: 4800000, guid: b4e7341bf8abc45c9b2dbac82097e5f2, type: 3}
+  m_Name: SolidBg
+  m_Shader: {fileID: 4800000, guid: 6da83cbd0a0a442319db70257f1da8b6, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -16,7 +16,7 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 3000
   stringTagMap: {}
   disabledShaderPasses: []
   m_LockedProperties: 
@@ -41,13 +41,9 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Cutoff: 0.5
     - _EnableExternalAlpha: 0
-    - _Glossiness: 0.5
-    - _Metallic: 0
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _DebugColor: {r: 1, g: 0, b: 0, a: 1}
+    - _Color: {r: 0.15094337, g: 0.15094337, b: 0.15094337, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

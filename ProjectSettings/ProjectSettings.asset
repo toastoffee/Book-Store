@@ -806,23 +806,23 @@ PlayerSettings:
   webGLMemoryGeometricGrowthCap: 96
   webGLPowerPreference: 2
   scriptingDefineSymbols:
-    Android: DOTWEEN
-    EmbeddedLinux: DOTWEEN
+    Android: DOTWEEN;KAMGAM_SKY_CLOUDS_URP
+    EmbeddedLinux: DOTWEEN;KAMGAM_SKY_CLOUDS_URP
     GameCoreScarlett: DOTWEEN
-    GameCoreXboxOne: DOTWEEN
+    GameCoreXboxOne: DOTWEEN;KAMGAM_SKY_CLOUDS_URP
     LinuxHeadlessSimulation: DOTWEEN
-    Nintendo Switch: DOTWEEN
-    PS4: DOTWEEN
-    PS5: DOTWEEN
-    QNX: DOTWEEN
-    Stadia: DOTWEEN
-    Standalone: DOTWEEN
-    VisionOS: DOTWEEN
-    WebGL: DOTWEEN
+    Nintendo Switch: DOTWEEN;KAMGAM_SKY_CLOUDS_URP
+    PS4: DOTWEEN;KAMGAM_SKY_CLOUDS_URP
+    PS5: DOTWEEN;KAMGAM_SKY_CLOUDS_URP
+    QNX: DOTWEEN;KAMGAM_SKY_CLOUDS_URP
+    Stadia: DOTWEEN;KAMGAM_SKY_CLOUDS_URP
+    Standalone: DOTWEEN;KAMGAM_SKY_CLOUDS_URP
+    VisionOS: DOTWEEN;KAMGAM_SKY_CLOUDS_URP
+    WebGL: DOTWEEN;KAMGAM_SKY_CLOUDS_URP
     Windows Store Apps: DOTWEEN
-    XboxOne: DOTWEEN
+    XboxOne: DOTWEEN;KAMGAM_SKY_CLOUDS_URP
     iPhone: DOTWEEN
-    tvOS: DOTWEEN
+    tvOS: DOTWEEN;KAMGAM_SKY_CLOUDS_URP
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}
