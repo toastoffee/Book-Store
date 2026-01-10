@@ -38,6 +38,7 @@ public class CustomerSpawner : MonoBehaviour
     public Transform[] wanderWaypoints;
     public BookShelf[] bookShelves;
     public Transform checkoutCounter;
+    public Transform exitPoint;
     
     private void Start()
     {
@@ -101,6 +102,7 @@ public class CustomerSpawner : MonoBehaviour
         newCustomer.wanderWaypoints = wanderWaypoints;
         newCustomer.bookShelves = bookShelves;
         newCustomer.checkoutCounter = checkoutCounter;
+        newCustomer.exitPoint = exitPoint;
         
         // 添加到活动顾客列表
         if (maxCustomers > 0)

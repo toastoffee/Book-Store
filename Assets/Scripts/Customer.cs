@@ -53,6 +53,14 @@ public class Customer : MonoBehaviour
     [Tooltip("店铺出口位置")]
     public Transform exitPoint;
 
+    [Header("避让设置")]
+    [Tooltip("检测附近顾客的半径")]
+    public float avoidanceRadius = 2f;
+    [Tooltip("避让力度（数值越大，避让越明显）")]
+    public float avoidanceStrength = 1.5f;
+    [Tooltip("检测附近顾客的层级（用于优化性能）")]
+    public LayerMask customerLayer = -1;
+
     // 私有变量
     private List<BookData> shoppingBagBooks = new List<BookData>();
     private bool isLeaving = false;
@@ -60,6 +68,10 @@ public class Customer : MonoBehaviour
     private float stayDuration;
 
     public Vector3 shelfOffset;
+    
+    // 路径点占用管理（静态，所有顾客共享）
+    private static Dictionary<Transform, Customer> occupiedWaypoints = new Dictionary<Transform, Customer>();
+    private Transform currentOccupiedWaypoint = null;
 
     private void Start()
     {
@@ -122,15 +134,29 @@ public class Customer : MonoBehaviour
                 }
             }
 
-            // 随机选择一个闲逛路径点
+            // 选择一个未被占用的闲逛路径点
             if (wanderWaypoints != null && wanderWaypoints.Length > 0)
             {
-                Transform randomWaypoint = wanderWaypoints[Random.Range(0, wanderWaypoints.Length)];
-                yield return StartCoroutine(MoveTo(randomWaypoint));
+                Transform randomWaypoint = GetAvailableWaypoint();
+                if (randomWaypoint != null)
+                {
+                    // 占用该路径点
+                    OccupyWaypoint(randomWaypoint);
+                    
+                    yield return StartCoroutine(MoveTo(randomWaypoint));
 
-                // 在路径点停留随机时间
-                float waitTime = Random.Range(minWaitTime, maxWaitTime);
-                yield return StartCoroutine(WaitAtPoint(waitTime));
+                    // 在路径点停留随机时间
+                    float waitTime = Random.Range(minWaitTime, maxWaitTime);
+                    yield return StartCoroutine(WaitAtPoint(waitTime));
+                    
+                    // 释放路径点
+                    ReleaseWaypoint();
+                }
+                else
+                {
+                    // 如果所有路径点都被占用，等待一小段时间后重试
+                    yield return StartCoroutine(WaitAtPoint(1f));
+                }
             }
             else
             {
@@ -202,6 +228,9 @@ public class Customer : MonoBehaviour
     IEnumerator LeaveStore()
     {
         isLeaving = true;
+        
+        // 释放占用的路径点
+        ReleaseWaypoint();
 
         if (exitPoint != null)
         {
@@ -216,6 +245,12 @@ public class Customer : MonoBehaviour
         // 离开后销毁对象（或者可以设置为禁用）
         Debug.Log("顾客离开了店铺");
         Destroy(gameObject);
+    }
+    
+    private void OnDestroy()
+    {
+        // 确保在销毁时释放占用的路径点
+        ReleaseWaypoint();
     }
 
     /// <summary>
@@ -246,6 +281,153 @@ public class Customer : MonoBehaviour
     {
         return Time.time - stayStartTime >= stayDuration || isLeaving;
     }
+    
+    /// <summary>
+    /// 获取一个未被占用的随机路径点
+    /// </summary>
+    Transform GetAvailableWaypoint()
+    {
+        if (wanderWaypoints == null || wanderWaypoints.Length == 0) return null;
+        
+        // 过滤出未被占用的路径点
+        List<Transform> availableWaypoints = new List<Transform>();
+        foreach (var waypoint in wanderWaypoints)
+        {
+            if (waypoint != null && !occupiedWaypoints.ContainsKey(waypoint))
+            {
+                availableWaypoints.Add(waypoint);
+            }
+        }
+        
+        // 如果所有路径点都被占用，清理无效的占用（可能顾客已经销毁但未释放）
+        if (availableWaypoints.Count == 0)
+        {
+            CleanupInvalidOccupations();
+            // 再次尝试
+            foreach (var waypoint in wanderWaypoints)
+            {
+                if (waypoint != null && !occupiedWaypoints.ContainsKey(waypoint))
+                {
+                    availableWaypoints.Add(waypoint);
+                }
+            }
+        }
+        
+        if (availableWaypoints.Count > 0)
+        {
+            return availableWaypoints[Random.Range(0, availableWaypoints.Count)];
+        }
+        
+        return null;
+    }
+    
+    /// <summary>
+    /// 占用一个路径点
+    /// </summary>
+    void OccupyWaypoint(Transform waypoint)
+    {
+        if (waypoint == null) return;
+        
+        // 如果已经有占用的路径点，先释放
+        if (currentOccupiedWaypoint != null)
+        {
+            ReleaseWaypoint();
+        }
+        
+        occupiedWaypoints[waypoint] = this;
+        currentOccupiedWaypoint = waypoint;
+    }
+    
+    /// <summary>
+    /// 释放当前占用的路径点
+    /// </summary>
+    void ReleaseWaypoint()
+    {
+        if (currentOccupiedWaypoint != null)
+        {
+            if (occupiedWaypoints.ContainsKey(currentOccupiedWaypoint) && 
+                occupiedWaypoints[currentOccupiedWaypoint] == this)
+            {
+                occupiedWaypoints.Remove(currentOccupiedWaypoint);
+            }
+            currentOccupiedWaypoint = null;
+        }
+    }
+    
+    /// <summary>
+    /// 清理无效的路径点占用（已销毁的顾客占用的路径点）
+    /// </summary>
+    void CleanupInvalidOccupations()
+    {
+        List<Transform> toRemove = new List<Transform>();
+        foreach (var kvp in occupiedWaypoints)
+        {
+            if (kvp.Value == null || kvp.Key == null)
+            {
+                toRemove.Add(kvp.Key);
+            }
+        }
+        
+        foreach (var key in toRemove)
+        {
+            occupiedWaypoints.Remove(key);
+        }
+    }
+    
+    /// <summary>
+    /// 获取避让向量（检测附近的其他顾客并计算避让方向）
+    /// </summary>
+    Vector3 GetAvoidanceVector()
+    {
+        Vector3 avoidanceVector = Vector3.zero;
+        
+        // 如果 customerLayer 设置为有效层级，使用物理检测（更高效）
+        if (customerLayer != -1)
+        {
+            Collider[] nearbyColliders = Physics.OverlapSphere(transform.position, avoidanceRadius, customerLayer);
+            foreach (var col in nearbyColliders)
+            {
+                Customer otherCustomer = col.GetComponent<Customer>();
+                if (otherCustomer != null && otherCustomer != this)
+                {
+                    Vector3 directionAway = (transform.position - otherCustomer.transform.position);
+                    float distance = directionAway.magnitude;
+                    
+                    if (distance > 0.01f)
+                    {
+                        // 距离越近，避让力度越大
+                        float avoidanceForce = 1f - (distance / avoidanceRadius);
+                        avoidanceVector += directionAway.normalized * avoidanceForce;
+                    }
+                }
+            }
+        }
+        else
+        {
+            // 如果未设置层级，使用 FindObjectsOfType（性能较低，但更通用）
+            Customer[] allCustomers = FindObjectsOfType<Customer>();
+            foreach (var otherCustomer in allCustomers)
+            {
+                if (otherCustomer != null && otherCustomer != this)
+                {
+                    float distance = Vector3.Distance(transform.position, otherCustomer.transform.position);
+                    if (distance < avoidanceRadius && distance > 0.01f)
+                    {
+                        Vector3 directionAway = (transform.position - otherCustomer.transform.position).normalized;
+                        float avoidanceForce = 1f - (distance / avoidanceRadius);
+                        avoidanceVector += directionAway * avoidanceForce;
+                    }
+                }
+            }
+        }
+        
+        if (avoidanceVector.magnitude > 0.01f)
+        {
+            return avoidanceVector.normalized;
+        }
+        
+        return Vector3.zero;
+    }
 
     /// <summary>
     /// 移动到目标位置
@@ -274,7 +456,27 @@ public class Customer : MonoBehaviour
             // 保存移动前的位置（用于动态Blend计算）
             Vector3 beforeMove = transform.position;
             
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
+            // 计算基础移动方向（朝向目标）
+            Vector3 toTarget = (targetPosition - transform.position);
+            Vector3 moveDirection = toTarget.normalized;
+            
+            // 应用避让逻辑
+            Vector3 avoidanceVector = GetAvoidanceVector();
+            Vector3 finalMoveDirection = moveDirection;
+            
+            if (avoidanceVector.magnitude > 0.01f)
+            {
+                // 将避让向量与移动方向结合，但保持朝向目标的方向为主要方向
+                finalMoveDirection = (moveDirection + avoidanceVector * avoidanceStrength * 0.3f).normalized;
+            }
+            
+            // 计算移动距离（限制在到目标的距离内）
+            float moveDistance = speed * Time.deltaTime;
+            float distanceToTarget = toTarget.magnitude;
+            moveDistance = Mathf.Min(moveDistance, distanceToTarget);
+            
+            // 应用移动
+            transform.position += finalMoveDirection * moveDistance;
 
             // 计算实际移动速度，用于动态调整Blend参数
             if (useDynamicBlend)
@@ -287,6 +489,13 @@ public class Customer : MonoBehaviour
             {
                 // 如果不使用动态Blend，直接设置为最大值（行走状态）
                 SetAnimatorBlend(1f);
+            }
+            
+            // 更新朝向（面向实际移动方向）
+            if (finalMoveDirection.magnitude > 0.01f)
+            {
+                moveRotation = Quaternion.LookRotation(finalMoveDirection, Vector3.up);
+                moveRotation = Quaternion.Euler(0, moveRotation.eulerAngles.y, 0);
             }
 
             if (smoothRotation)
@@ -346,7 +555,27 @@ public class Customer : MonoBehaviour
             // 保存移动前的位置（用于动态Blend计算）
             Vector3 beforeMove = transform.position;
             
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
+            // 计算基础移动方向（朝向目标）
+            Vector3 toTarget = (targetPosition - transform.position);
+            Vector3 moveDirection = toTarget.normalized;
+            
+            // 应用避让逻辑
+            Vector3 avoidanceVector = GetAvoidanceVector();
+            Vector3 finalMoveDirection = moveDirection;
+            
+            if (avoidanceVector.magnitude > 0.01f)
+            {
+                // 将避让向量与移动方向结合，但保持朝向目标的方向为主要方向
+                finalMoveDirection = (moveDirection + avoidanceVector * avoidanceStrength * 0.3f).normalized;
+            }
+            
+            // 计算移动距离（限制在到目标的距离内）
+            float moveDistance = speed * Time.deltaTime;
+            float distanceToTarget = toTarget.magnitude;
+            moveDistance = Mathf.Min(moveDistance, distanceToTarget);
+            
+            // 应用移动
+            transform.position += finalMoveDirection * moveDistance;
 
             // 计算实际移动速度，用于动态调整Blend参数
             if (useDynamicBlend)
@@ -359,6 +588,13 @@ public class Customer : MonoBehaviour
             {
                 // 如果不使用动态Blend，直接设置为最大值（行走状态）
                 SetAnimatorBlend(1f);
+            }
+            
+            // 更新朝向（面向实际移动方向）
+            if (finalMoveDirection.magnitude > 0.01f)
+            {
+                moveRotation = Quaternion.LookRotation(finalMoveDirection, Vector3.up);
+                moveRotation = Quaternion.Euler(0, moveRotation.eulerAngles.y, 0);
             }
 
             if (smoothRotation)

@@ -123,7 +123,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: be0216cfb2ef64f81bb31e232db020c7,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -210,6 +210,11 @@ MonoBehaviour:
   checkoutTime: 2
   stayDurationRange: {x: 20, y: 40}
   exitPoint: {fileID: 0}
+  avoidanceRadius: 1
+  avoidanceStrength: 2
+  customerLayer:
+    serializedVersion: 2
+    m_Bits: 4294967295
   shelfOffset: {x: 0, y: -0.886, z: -0.6}
 --- !u!4 &6741993446809153826 stripped
 Transform:

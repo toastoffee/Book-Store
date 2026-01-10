@@ -83,7 +83,7 @@ Material:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _DepthColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _EmmissiveColor: {r: 0.5482876, g: 0.6286016, b: 0.7283019, a: 0}
+    - _EmmissiveColor: {r: 0.030437866, g: 0.32893488, b: 0.7169812, a: 0}
     - _EmmissiveVoronoi: {r: 0.54828763, g: 0.6286017, b: 0.7283019, a: 0}
     - _Mask0: {r: 162.8, g: 30, b: -309, a: 0.7}
     - _Mask1: {r: 0, g: -999, b: 0, a: 0.001}
