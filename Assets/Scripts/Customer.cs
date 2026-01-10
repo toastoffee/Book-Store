@@ -12,6 +12,10 @@ public class Customer : MonoBehaviour
     public float rotationSpeed = 5f;
     [Tooltip("到达后对齐路点朝向的渐变时间（秒）")]
     public float alignRotationDuration = 0.3f;
+    [Tooltip("Animator中控制移动/站立的Blend参数名称（Float类型，0=站立，1=行走）")]
+    public string animatorBlendParameter = "Blend";
+    [Tooltip("是否根据移动速度动态调整Blend参数")]
+    public bool useDynamicBlend = true;
 
     [Header("闲逛设置")]
     [Tooltip("店铺内的闲逛路径点")]
@@ -182,6 +186,13 @@ public class Customer : MonoBehaviour
         // 在收银台结账
         yield return StartCoroutine(WaitAtPoint(checkoutTime));
 
+        int moneyAcquire = 0;
+        foreach (var data in shoppingBagBooks)
+        {
+            moneyAcquire += data.sellPrice;
+        }
+        MoneyManager.instance.money += moneyAcquire;
+
         Debug.Log($"顾客结账完成，共购买了 {shoppingBagBooks.Count} 本书");
     }
 
@@ -245,8 +256,8 @@ public class Customer : MonoBehaviour
 
         Vector3 targetPosition = targetWaypoint.position + offset;
 
-        if (animator != null)
-            animator.SetBool("isWalking", true);
+        // 设置Animator Blend参数为行走状态
+        SetAnimatorBlend(1f);
 
         // 计算移动过程中的朝向（面向行进方向）
         Vector3 direction = (targetPosition - transform.position).normalized;
@@ -260,7 +271,23 @@ public class Customer : MonoBehaviour
         // === 移动到目标位置 ===
         while (Vector3.Distance(transform.position, targetPosition) > 0.05f)
         {
+            // 保存移动前的位置（用于动态Blend计算）
+            Vector3 beforeMove = transform.position;
+            
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
+
+            // 计算实际移动速度，用于动态调整Blend参数
+            if (useDynamicBlend)
+            {
+                float actualSpeed = Vector3.Distance(transform.position, beforeMove) / Time.deltaTime;
+                float blendValue = Mathf.Clamp01(actualSpeed / speed);
+                SetAnimatorBlend(blendValue);
+            }
+            else
+            {
+                // 如果不使用动态Blend，直接设置为最大值（行走状态）
+                SetAnimatorBlend(1f);
+            }
 
             if (smoothRotation)
                 transform.rotation = Quaternion.Slerp(transform.rotation, moveRotation, rotationSpeed * Time.deltaTime);
@@ -288,13 +315,12 @@ public class Customer : MonoBehaviour
         // 确保最终完全对齐
         transform.rotation = targetRotation;
 
-        // 停止行走
-        if (animator != null)
-            animator.SetBool("isWalking", false);
+        // 停止行走，设置Animator Blend参数为站立状态
+        SetAnimatorBlend(0f);
     }
 
-        /// <summary>
-    /// 移动到目标位置
+    /// <summary>
+    /// 移动到目标位置（无偏移版本）
     /// </summary>
     IEnumerator MoveTo(Transform targetWaypoint)
     {
@@ -302,8 +328,8 @@ public class Customer : MonoBehaviour
 
         Vector3 targetPosition = targetWaypoint.position;
 
-        if (animator != null)
-            animator.SetBool("isWalking", true);
+        // 设置Animator Blend参数为行走状态
+        SetAnimatorBlend(1f);
 
         // 计算移动过程中的朝向（面向行进方向）
         Vector3 direction = (targetPosition - transform.position).normalized;
@@ -317,7 +343,23 @@ public class Customer : MonoBehaviour
         // === 移动到目标位置 ===
         while (Vector3.Distance(transform.position, targetPosition) > 0.05f)
         {
+            // 保存移动前的位置（用于动态Blend计算）
+            Vector3 beforeMove = transform.position;
+            
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
+
+            // 计算实际移动速度，用于动态调整Blend参数
+            if (useDynamicBlend)
+            {
+                float actualSpeed = Vector3.Distance(transform.position, beforeMove) / Time.deltaTime;
+                float blendValue = Mathf.Clamp01(actualSpeed / speed);
+                SetAnimatorBlend(blendValue);
+            }
+            else
+            {
+                // 如果不使用动态Blend，直接设置为最大值（行走状态）
+                SetAnimatorBlend(1f);
+            }
 
             if (smoothRotation)
                 transform.rotation = Quaternion.Slerp(transform.rotation, moveRotation, rotationSpeed * Time.deltaTime);
@@ -345,9 +387,8 @@ public class Customer : MonoBehaviour
         // 确保最终完全对齐
         transform.rotation = targetRotation;
 
-        // 停止行走
-        if (animator != null)
-            animator.SetBool("isWalking", false);
+        // 停止行走，设置Animator Blend参数为站立状态
+        SetAnimatorBlend(0f);
     }
 
     /// <summary>
@@ -355,6 +396,9 @@ public class Customer : MonoBehaviour
     /// </summary>
     IEnumerator WaitAtPoint(float seconds)
     {
+        // 确保Animator设置为站立状态
+        SetAnimatorBlend(0f);
+        
         yield return new WaitForSeconds(seconds);
     }
 
@@ -368,5 +412,57 @@ public class Customer : MonoBehaviour
     public IReadOnlyList<BookData> GetShoppingBagBooks()
     {
         return shoppingBagBooks.AsReadOnly();
+    }
+
+    /// <summary>
+    /// 设置Animator的Blend参数（用于控制移动/站立状态）
+    /// </summary>
+    /// <param name="value">0 = 站立，1 = 行走</param>
+    void SetAnimatorBlend(float value)
+    {
+        if (animator == null || string.IsNullOrEmpty(animatorBlendParameter))
+            return;
+
+        // 检查参数是否存在且为Float类型
+        if (HasAnimatorParameter(animatorBlendParameter, AnimatorControllerParameterType.Float))
+        {
+            animator.SetFloat(animatorBlendParameter, Mathf.Clamp01(value));
+        }
+        else if (HasAnimatorParameter(animatorBlendParameter))
+        {
+            // 如果参数存在但不是Float类型，输出警告
+            Debug.LogWarning($"Animator参数 '{animatorBlendParameter}' 不是Float类型！请检查Animator Controller。");
+        }
+        // 如果参数不存在，不输出警告（可能用户还没有设置）
+    }
+
+    /// <summary>
+    /// 检查Animator是否有指定参数
+    /// </summary>
+    bool HasAnimatorParameter(string paramName)
+    {
+        if (animator == null || animator.runtimeAnimatorController == null) return false;
+        
+        foreach (AnimatorControllerParameter param in animator.parameters)
+        {
+            if (param.name == paramName)
+                return true;
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// 检查Animator是否有指定类型的参数
+    /// </summary>
+    bool HasAnimatorParameter(string paramName, AnimatorControllerParameterType paramType)
+    {
+        if (animator == null || animator.runtimeAnimatorController == null) return false;
+        
+        foreach (AnimatorControllerParameter param in animator.parameters)
+        {
+            if (param.name == paramName && param.type == paramType)
+                return true;
+        }
+        return false;
     }
 }

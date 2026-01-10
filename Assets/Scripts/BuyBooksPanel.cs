@@ -108,6 +108,9 @@ public class BuyBooksPanel : MonoBehaviour
     
     public void TrySpawnABookBox(BookGenre genre)
     {
+        if (MoneyManager.instance.money < 50) return;
+        MoneyManager.instance.money -= 50;
+        
         BookBox box = Instantiate(bookBoxPrefab, SpawnPos.position, Quaternion.identity);
 
         List<BookData> books = new List<BookData>();
