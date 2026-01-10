@@ -14,6 +14,7 @@ public class BookShelf : MonoBehaviour
     public List<BookData> allBooks = new List<BookData>();
 
     public bool isBookFull => allBooks.Count >= maxContent;
+    public bool hasBooks => allBooks.Count > 0;
 
     private void Start()
     {
@@ -49,6 +50,19 @@ public class BookShelf : MonoBehaviour
         seq.Join(allBookVisuals[newBookIdx].transform.DOLocalMoveY(0f, 0.8f));
         seq.Join(allBookVisuals[newBookIdx].transform.DOLocalRotateQuaternion(Quaternion.identity, 0.8f));
         seq.Append(allBookVisuals[newBookIdx].transform.DOLocalMoveZ(0f, 0.6f));
+    }
+
+    /// <summary>
+    /// 从书架移除一本书并返回BookData，如果没有书则返回null
+    /// </summary>
+    public BookData RemoveBook()
+    {
+        if (allBooks.Count == 0) return null;
+        
+        BookData removedBook = allBooks[allBooks.Count - 1];
+        allBooks.RemoveAt(allBooks.Count - 1);
+        
+        return removedBook;
     }
 
     private void UpdateVisuals()
